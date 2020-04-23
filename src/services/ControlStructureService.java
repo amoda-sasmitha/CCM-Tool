@@ -1,11 +1,22 @@
 package services;
 
-public class ControlStructure {
+public class ControlStructureService {
 
 	 public static int conditionalControlStructure(String line)
 	    {
 	        int total = 0;  
-	        total = total + ((line.length() - line.replaceAll("(?<!\\w)if(?!\\w)", "").length()) / 2);    
+	        total = total + ((line.length() - line.replaceAll("(?<!\\w)if(?!\\w)", "").length()) / 2);   
+	        if(total > 0)  // 'if' detected
+	        {            
+	            //Detecting &&
+	            total = total + ((line.length() - line.replaceAll("&&", "").length()) / 2);
+	            //Detecting &
+	            total = total + ((line.length() - line.replaceAll("(?<!&)&(?![&=])", "").length()));
+	            //Detecting ||
+	            total = total + ((line.length() - line.replaceAll("\\|\\|", "").length()) / 2);
+	            //Detecting |
+	            total = total + ((line.length() - line.replaceAll("(?<!\\|)\\|(?!\\|)", "").length()));
+	        }    
 	        return total;
 	    }
 	 

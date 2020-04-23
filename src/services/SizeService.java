@@ -8,11 +8,11 @@ import java.util.regex.Pattern;
 
 
 
-public class Size {
+public class SizeService {
 	 
 	private static HashSet<String> keyWordSet = new HashSet<String>();
 
-	 protected static  int keywords(String line) {
+	 public static  int keywords(String line) {
 
 	        int total = 0;
 
@@ -33,7 +33,7 @@ public class Size {
 	       return total;
 	 }
 	 
-	 protected static  int arithmeticOperators(String line) {
+	 public static  int arithmeticOperators(String line) {
 	        int total = 0;
 
 	        //Detect +
@@ -54,7 +54,7 @@ public class Size {
 	        return total;
 	    }
 	 
-	 	protected static  int relationalOperators(String line) {
+	 	public static  int relationalOperators(String line) {
 	        int total = 0;
 
 	        //Detect ==
@@ -73,7 +73,7 @@ public class Size {
 	        return total;
 	    }
 	 	
-	 	protected static  int logicalOperators(String line) {
+	 	public static  int logicalOperators(String line) {
 	        int total = 0;
 
 	        //Detecting &&
@@ -86,7 +86,7 @@ public class Size {
 	        return total;
 	    }
 	 	
-	 	protected static  int bitwiseOperators(String line) {
+	 	public static  int bitwiseOperators(String line) {
 
 	        int total = 0;
 
@@ -108,7 +108,7 @@ public class Size {
 	        return total;
 	    }
 	 	
-	 	 protected static  int miscellaneousOperators(String line) {
+	 	 public static  int miscellaneousOperators(String line) {
 	         int total = 0;
 	 
 	             // Multiply by 2 since each operator is awarded 2 marks
@@ -120,7 +120,7 @@ public class Size {
 	         return total;
 	     }
 	 	 
-	 	protected static  int assignmentOperators(String line) {
+	 	public static  int assignmentOperators(String line) {
 	        int total = 0;
 
 	        //Detecting +=
@@ -151,7 +151,7 @@ public class Size {
 	        return total;
 	    }
 	 	
-	 	protected static  int checkStrings(String line) {
+	 	public static  int checkStrings(String line) {
 
 	        int total = 0;
 	        total = total + ((line.length() - line.replaceAll("\".*?", "").length()) / 2);

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.annotation.MultipartConfig;
@@ -19,6 +20,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
+import model.Size;
+import services.SizeService;
+
+
+
 
 @WebServlet("/CodeComplexity")
 @MultipartConfig
@@ -27,7 +33,8 @@ public class CodeComplexity extends HttpServlet {
     
 	private String filePath;
 	private File file ;
-	private ArrayList<String> lines = new ArrayList<String>();
+	public ArrayList<Size> sizedetails = new ArrayList<Size>();
+
 	
 	public void init( ){
 	      // Get the file location where it would be stored.
@@ -42,13 +49,59 @@ public class CodeComplexity extends HttpServlet {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(filecontent));
 		while(reader.ready()) {
 		     String line = reader.readLine();
-		     lines.add(line);
+		     line = excludeComments(line);
+		     
+		     if(validateCodeLine(line)) {
+		     //size details
+		     Size size = new Size();
+		     size.setLine(line);
+		     
+		     size.setNkw(SizeService.keywords(line));
+		     size.setNid(SizeService.identifiers(line));
+		     size.setNop(SizeService.arithmeticOperators(line) + 
+		    		 	 SizeService.relationalOperators(line) + 
+		    		 	 SizeService.logicalOperators(line) +
+		    		 	 SizeService.bitwiseOperators(line) +
+		    		 	 SizeService.miscellaneousOperators(line) +
+		    		 	 SizeService.assignmentOperators(line) );
+		     size.setNnv(SizeService.numbers(line));
+		     size.setNsl(SizeService.checkStrings(line));
+		     
+		     sizedetails.add(size);
+		     }
 		}
+		     //request.setAttribute("sizedetails", sizedetails );
+		     RequestDispatcher rd= request.getRequestDispatcher("cs_measure_page.jsp");
+		     rd.forward(request, response);
+		     
 		
+	}
+	
+	public boolean validateCodeLine(String line) {
 		
-		
-		
-		
+		line = line.trim();
+        if (line.isEmpty()) {
+            return false;
+        }
+        
+     // Excluding import Statements
+        if (line.contains("import")) {
+            return false;
+        }
+        
+		return true;
+	}
+	
+	public String excludeComments(String line) {
+		// Excluding comments
+        if (line.contains("//")) {
+            int begin = line.indexOf("//");
+            if (begin == 0) {
+                return "";
+            }
+            return line.substring(0, begin);
+        }
+		return line;
 	}
 	
 	

@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+<%@page import="java.util.ArrayList" %>	
+<%@page import="model.Size" %>	
+<%ArrayList<Size> sizedetails = (ArrayList<Size>) request.getAttribute("sizedetails"); %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <style>
@@ -99,25 +102,25 @@ function goBack() {
       <thead class="tablehead">
         <tr>
           <th>Line No</th>
-          <th>Program Statements</th>
-          <th>Wtcs</th>
-          <th>NC</th>
-          <th>Ccspps</th>
-          <th>Ccs</th>
+          <th>Nkw</th>
+          <th>Nid</th>
+          <th>Nop</th>
+          <th>Nnv</th>
+          <th>Nsl</th>
+          <th>CS</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>1</td>
-          <td><script>$(".custom-file-input").on("change", function() {
-  var fileName = $(this).val().split("\\").pop();
-  $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
-});</script></td>
-          <td>1</td>
-          <td>35</td>
-          <td>2 </td>
-          <td>3</td>
-        </tr>
+      <% for (Size size : sizedetails){ %>
+           <tr> 
+               <td><%=size.getLine()%></td> 
+               <td><%=size.getNkw()%></td> 
+               <td><%=size.getNid()%></td> 
+               <td><%=size.getNop()%></td> 
+               <td><%=size.getNnv()%></td> 
+               <td><%=size.getNsl()%></td> 
+               <td><%=size.getNkw() + size.getNid() + size.getNop() + size.getNnv() + size.getNsl()%></td>     
+       <% }%>
       </tbody>
     </table>
   </div>
