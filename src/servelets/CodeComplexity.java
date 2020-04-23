@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -70,7 +71,8 @@ public class CodeComplexity extends HttpServlet {
 		     sizedetails.add(size);
 		     }
 		}
-		     //request.setAttribute("sizedetails", sizedetails );
+		     request.setAttribute("sizedetails", sizedetails );
+		     request.setAttribute("filename", getFileName(filePart) );
 		     RequestDispatcher rd= request.getRequestDispatcher("cs_measure_page.jsp");
 		     rd.forward(request, response);
 		     
@@ -103,6 +105,15 @@ public class CodeComplexity extends HttpServlet {
         }
 		return line;
 	}
+	
+	protected String getFileName(Part p){
+
+		String GUIDwithext = Paths.get(p.getSubmittedFileName()).getFileName().toString();
+
+		String GUID = GUIDwithext.substring(0, GUIDwithext.lastIndexOf('.'));
+
+		return GUID;
+		    }
 	
 	
 

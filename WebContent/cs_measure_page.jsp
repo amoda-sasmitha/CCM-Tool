@@ -3,6 +3,7 @@
 <%@page import="java.util.ArrayList" %>	
 <%@page import="model.Size" %>	
 <%ArrayList<Size> sizedetails = (ArrayList<Size>) request.getAttribute("sizedetails"); %>
+<%String filename = (String) request.getAttribute("filename"); %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <style>
@@ -15,6 +16,9 @@ input[type=text], select {
 	border-radius: 4px;
 	box-sizing: border-box;
 	display: inline-block;
+}
+.none{
+	display: none !important;
 }
 
 div {
@@ -36,9 +40,7 @@ table#t01 th {
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
 
 </head>
 <body>
@@ -66,7 +68,7 @@ function goBack() {
 	<div>
 		<form action="/action_page.php">
 
-			<input type="text" name="flname" class="flname" placeholder="Your file name" style="border:2px solid Violet;">
+			<input type="text" name="flname" value="<%=filename%>" class="flname" placeholder="Your file name" style="border:2px solid Violet;">
 			<button type="button" class="btn btn-danger" style="margin-left: 20px; padding: 12px 45px;" onclick=alertt()>Remove</button>
 			
 			<script type="text/javascript">
@@ -76,28 +78,42 @@ function goBack() {
 				  var r = confirm("Are you sure to remove uploaded file ?");
 				  if (r == true) {
 				    alert("File Removed Successfuly ");
-				    location.href = 'uploadpage.jsp';
+				    location.href = '/CCM-Tool/';
 				  }
 				
 			}
 			</script>
 
-			<select id="country" name="country" style="margin-left: 100px;border:2px solid Violet;">
-				<option value="australia">Control Structure</option>
-				<option value="canada">Inheritance</option>
-				<option value="usa">Size</option>
-				<option value="usa">All Factors</option>
+			<select id="st_val"  style="margin-left: 100px;border:2px solid Violet;">
+				<option selected value="#control_structure">Control Structure</option>
+				<option value="#variables">Variables</option>
+				<option value="#size">Size</option>
+				<option value="#methods">methods</option>
 			</select>
-			<button  type="button" class="btn warning" style="margin-left: 20px; padding: 12px 20px;" onclick="location.href = 'controlstructure_weight_page.jsp';">Related Weights</button>
+			<button id="msg"  type="button" class="btn btn-success btn-lg ml-5">Messure</button>
 			
 		</form>
 	</div>
 
-
-
-
-
-<div class="table-responsive">
+<!-- normal code table -->
+<div id="normal_code"  class="table-responsive ">
+    <table id="t01" class="table table-bordered" style="overflow: auto;">
+      <thead class="tablehead">
+        <tr>
+          <th>Line</th>
+        </tr>
+      </thead>
+      <tbody>
+	 <% for (Size size : sizedetails){ %>
+           <tr> 
+               <td><%=size.getLine()%></td>    
+       <% }%>
+      </tbody>
+    </table>
+  </div>
+  
+<!-- control_structure table -->
+<div id="control_structure"  class="table-responsive none">
     <table id="t01" class="table table-bordered" style="overflow: auto;">
       <thead class="tablehead">
         <tr>
@@ -111,19 +127,103 @@ function goBack() {
         </tr>
       </thead>
       <tbody>
-      <% for (Size size : sizedetails){ %>
-           <tr> 
-               <td><%=size.getLine()%></td> 
-               <td><%=size.getNkw()%></td> 
-               <td><%=size.getNid()%></td> 
-               <td><%=size.getNop()%></td> 
-               <td><%=size.getNnv()%></td> 
-               <td><%=size.getNsl()%></td> 
-               <td><%=size.getNkw() + size.getNid() + size.getNop() + size.getNnv() + size.getNsl()%></td>     
-       <% }%>
+	  <!--add rows here  -->
+	  <tr>
+		  <td>control_structure</td>
+	  </tr>
       </tbody>
     </table>
   </div>
+
+  <!--variables table  -->
+  <div id="variables"  class="table-responsive none">
+    <table id="t01" class="table table-bordered" style="overflow: auto;">
+      <thead class="tablehead">
+        <tr>
+          <th>Line No</th>
+          <th>Nkw</th>
+          <th>Nid</th>
+          <th>Nop</th>
+          <th>Nnv</th>
+          <th>Nsl</th>
+          <th>CS</th>
+        </tr>
+      </thead>
+      <tbody>
+	   <!--add rows here  -->
+	   <tr>
+		<td>variables</td>
+	</tr>
+      </tbody>
+    </table>
+  </div>
+
+<!-- size table -->
+<div id="size"  class="table-responsive none">
+    <table id="t01" class="table table-bordered" style="overflow: auto;">
+      <thead class="tablehead">
+        <tr>
+          <th>Line No</th>
+          <th>Nkw</th>
+          <th>Nid</th>
+          <th>Nop</th>
+          <th>Nnv</th>
+          <th>Nsl</th>
+          <th>CS</th>
+        </tr>
+      </thead>
+      <tbody>
+	   <!--add rows here  -->
+	   <tr>
+		<td>size</td>
+	</tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!--methods table  -->
+  <div id="methods"  class="table-responsive none">
+    <table id="t01" class="table table-bordered" style="overflow: auto;">
+      <thead class="tablehead">
+        <tr>
+          <th>Line No</th>
+          <th>Nkw</th>
+          <th>Nid</th>
+          <th>Nop</th>
+          <th>Nnv</th>
+          <th>Nsl</th>
+          <th>CS</th>
+        </tr>
+      </thead>
+      <tbody>
+	   <!--add rows here  -->
+	   <tr>
+		<td>methods</td>
+	</tr>
+      </tbody>
+    </table>
+  </div>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script>
+	  $("#msg").click(function(){
+		
+		console.log("Hello");
+		var value = $("#st_val").val();
+		let array = ["#control_structure" , "#variables" , "#size" , "#methods" , "#normal_code"].filter( item => item !== value  );
+
+		console.log(value);
+		console.log(array);
+		 $(value).removeClass("none");
+		array.forEach( element => {
+			$(element).addClass("none");
+		})
+
+		});
+  </script>
+
+
 <br>
 
 </body>
